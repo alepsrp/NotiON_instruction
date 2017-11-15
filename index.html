@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Модуль списка обновлений | NotiON </title>
+<style>
+    body{
+        background: #ddd;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    #content{
+        width: 630px;
+        margin: auto;
+        background: #fff;
+        padding: 21px;
+    }
+    xmp {margin: 0;}
+    h1,h2,h3 { margin: 0;}
+    h1{
+        font-size: 22px;
+        font-weight: 100;
+        color: #3f3f3f;
+        display: inline-block;
+        margin: 0px 0 20px;
+    }
+    
+    
+    pre{
+        margin: 5px 10px;
+        display: inline-block;
+        padding: 5px;
+        font-size: 13px;
+        background: #ececec;
+        color: #000;
+        border-radius: 4px;
+    }
+    h3{
+        font-size: 18px;
+        color: #416779;
+        margin: 20px 0px 10px -21px;
+        background: #f1f1f1;
+         display: inline-block; 
+        padding: 3px 10px;
+    }
+    .infodect {
+        font-size: 14px;
+        color: #383838;
+        display: block; 
+        border-bottom: 1px solid #dadada;
+        padding-bottom: 20px;
+    }
+    #zfont12{
+        font-size: 12px;
+    }
+</style>
+</head>
+<body>
+
+<div id="content">
+<h1>Модуль последних обновленией/редактирований новостей</h1><br>
+<span class="infodect">
+    &ensp; Выводит последние отредактированные(обновленные) статьи в нужной части  и разделах сайта, при необходимости, <b>с возможностью "уведомления" для пользователей, были ли обновление за время отсутствия</b> которые он мог пропустить (с возможностью подсчитать кол-во обновлений).
+    <br>Присутствует своя страница модуля - <b>архив последних обновлений</b>, все обновление за указанный период времени.
+</span>
+<br>
+<h3>Особенности</h3>
+<span class="infodect">
+    <b>Гибкая настройка модуля</b> с возможностью настройки:<br>
+        &ensp;- <b>игнорируемых пользователей</b>, чьи обновления не будут показываться<br>
+        &ensp;- <b>периода времени с обновления</b> (давность обновлений) <br>
+        &ensp;- <b>кол-во новостей для показа</b> на главной странице сайта <br>
+        &ensp;- <b>вариантов для вывода заголовка и причины редактирования</b> из указанных доп.полей.<br>
+        &ensp;- показывать ли <b>уведомление пользователю о обновлениях</b> за время отсутствия.<br>
+        &ensp;- <b>сортировки по категориям</b>, к которым (не)принадлежит новость<br>
+        &ensp;- <b>админ. часть, один запрос к БД, кэширование, стильное оформление(шаблоны)</b>
+</span>
+<br>
+<h3>Установка и использование</h3>
+<span class="infodect">
+<b>1.</b> Скопировать все файлы модуля в дрективу сайта<br>
+<pre>\engine\modules\mymod_NotiON.php</pre><br>
+<pre>\engine\modules\mymod_NotiON_pol.php</pre> <i>- нужен для архива обновлений</i><br>
+<pre>\engine\inc\mymod_NotiON.php</pre> <i>- админ панель</i><br>
+<pre>\engine\data\NotionConfig.php</pre><br>
+<pre>\install_notion.php</pre> <i>- для быстрой установки в админку, после удалить</i>
+<br>
+<br>
+<b>2.</b> В нужном месте подключить модуль: <pre>{include file="engine/modules/mymod_NotiON.php"}</pre>
+<br>
+<br>
+<b>3.</b> Уже админ.часть доступна по адресу: <pre>http://site/admin.php?<b>mod=mymod_NotiON</b></pre>
+<br>
+<b>3.1.</b> Для установки в админ.панель воспользоваться <pre>http://site/<b>install_notion.php</b></pre>
+<br>
+<br>
+<b>4.</b> Скопировать все файлы шаблонов в папку своего шаблона<br>
+<pre>
+\templates\ШАБЛОН\Noti_m.tpl
+\templates\ШАБЛОН\Noti_ml.tpl
+\templates\ШАБЛОН\Noti_full.tpl
+\templates\ШАБЛОН\Noti_fl.tpl
+</pre>
+<br>
+<br>
+<b>5.1</b> Для архива обновлений: открыть <pre>\engine\engine.php</pre> <br>
+ и там найти <pre>elseif ($do == 'xfsearch') $nam_e = $xf;</pre> <br>
+ ниже вставить <pre>elseif ($do == 'notice') $nam_e = 'Мой мод';</pre><br>
+Найти<br>
+<pre>
+case "pm" :
+    include ENGINE_DIR . '/modules/pm.php';
+    break;
+</pre> <br>
+Ниже вставить<br>
+<pre>
+case "notice" :
+    include ENGINE_DIR . '/modules/mymod_NotiON_pol.php';
+    break;
+</pre><br>
+Теперь архив обновлений доступен <pre>http://site/index.php<b>?do=notice</b></pre><br>
+<b>5.1.1</b> Для красивого адреса в файле <pre>.htaccess:</pre><br>
+найти:<pre>RewriteEngine On</pre><br>
+после вставить:<pre>RewriteRule ^notice(/?)+$ index.php?do=notice [L]</pre><br>
+<i>*По всему п.5.1 можно заменить <pre>notice</pre> на любое своё слово </i>
+<br>
+</span>
+<br>
+
+<h3>Файлы шаблонов</h3>
+<span class="infodect">
+<b>1. <pre>Noti_m.tpl</pre></b> - в файле произвдитсья основаня настройка формления окна перечисления статей. Имеет основной тег - <pre>{tag_notiMain}</pre> отвечает за вывод статей следующего файла шаблона.<br>
+
+<b>2. <pre>Noti_ml.tpl</pre></b> файл офрмления статей. Имеет теги:<br>
+<pre>{tag_editdate}</pre> - неформатированная дата обновления (для скрипта уведомлений)<br>
+<pre>{tag_reason}</pre> - прична обновления\редактирования (см. в адмичасти)<br>
+<pre>{tag_title}</pre> - заголовок обновления\редактирования (см. в адмичасти)<br>
+<pre>{tag_link}</pre> - ссылка на статью<br>
+<pre>{tag_date}</pre> - дата изменения статьи<br>
+
+<b>3. <pre>Noti_full.tpl</pre></b> - шаблон отдельной траницы модуля - архива обновлений\редактирований. Имеет один осовоной тег - 
+<pre>{tag_noti}</pre> отвечает за вывод статей следующего файла шаблона<br>
+
+<b>4. <pre>Noti_fl.tpl</pre></b> - шаблон оформления статей на сранице архива. Имеет теги:<br>
+<pre>{tag_reason1}</pre> - прична обновления\редактирования (см. в адмичасти)<br>
+<pre>{tag_title1}</pre> - заголовок обновления\редактирования (см. в адмичасти)<br>
+<pre>{tag_link1}</pre> - ссылка на статью<br>
+<pre>{tag_date}</pre> - дата изменения статьи<br>
+
+<br>
+Наглядое оформление файлов:<br>
+<pre>Noti_m.tpl</pre>:<br>
+<pre><xmp><span class="alarmBell">
+    <i id="bell">!</i>
+</span>
+<noindex>
+<ul id="noti_m">
+    <h3>Последние обовление</h3>
+    {tag_notiMain}
+    <a class="noti_link" href="/index.php?do=notice"> Посмотреть все обновление</a>
+</ul>
+</noindex>
+</xmp></pre>
+<br>
+<pre>Noti_ml.tpl</pre>:<br>
+<pre><xmp><li class="Noti_ml" id="{tag_editdate}">
+    <span class="icon_noti"></span>
+    <span class="dec_noti">
+    <span class="reason_noti">{tag_reason}</span>
+    <span class="title_noti"> <a href="{tag_link}" > {tag_title} </a> </span>
+    </span>
+    <span class="date_noti">{tag_date}</span>
+</li>
+</xmp></pre>
+<br>
+<pre>Noti_full.tpl</pre>:<br>
+<pre><xmp><h2 id="notih2">Последние обовление. Заголовк</h2>
+<ul id="noti_full">
+{tag_noti}
+</ul>
+<h3>Текст под</h3>
+</xmp></pre>
+<br>
+<pre>Noti_fl.tpl</pre>:<br>
+<pre><xmp>{tag_data}
+<li>
+Обновили <b><a href="{tag_link1}">{tag_title1}</a></b>, по причне: <b>{tag_reason1}</b>
+</li>
+</xmp></pre><br>
+<i>оформлеие можно взять из файла .css</i>
+</span>
+<br>
+<br>
+<span class="infodect">
+При интрересе в след. версии сделать вывод только из тех новостей, которые у пользователя в закладках?
+<br>Ошибки, замечания или предложения отправляйте  aleps.rp@gmail.com
+</span>
+<br>
+<br>
+
+
+</div>
+
+</body>
+</html>
