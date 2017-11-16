@@ -28,8 +28,6 @@
         display: inline-block;
         margin: 0px 0 20px;
     }
-    
-    
     pre{
         margin: 5px 10px;
         display: inline-block;
@@ -62,7 +60,7 @@
 <body>
 
 <div id="content">
-<h1>Модуль последних обновленией/редактирований новостей</h1><br>
+<h1>Модуль последних обновлений/редактирований новостей</h1><br>
 <span class="infodect">
     &ensp; Выводит последние отредактированные(обновленные) статьи в нужной части  и разделах сайта, при необходимости, <b>с возможностью "уведомления" для пользователей, были ли обновление за время отсутствия</b> которые он мог пропустить (с возможностью подсчитать кол-во обновлений).
     <br>Присутствует своя страница модуля - <b>архив последних обновлений</b>, все обновление за указанный период времени.
@@ -106,6 +104,7 @@
 \templates\ШАБЛОН\Noti_fl.tpl
 </pre>
 <br>
+прдключить к шаблону файл <pre>main.js</pre> или скопировать его в конец своего js файла
 <br>
 <b>5.1</b> Для архива обновлений: открыть <pre>\engine\engine.php</pre> <br>
  и там найти <pre>elseif ($do == 'xfsearch') $nam_e = $xf;</pre> <br>
@@ -152,46 +151,9 @@ case "notice" :
 <pre>{tag_date}</pre> - дата изменения статьи<br>
 
 <br>
-Наглядое оформление файлов:<br>
-<pre>Noti_m.tpl</pre>:<br>
-<pre><xmp><span class="alarmBell">
-    <i id="bell">!</i>
-</span>
-<noindex>
-<ul id="noti_m">
-    <h3>Последние обовление</h3>
-    {tag_notiMain}
-    <a class="noti_link" href="/index.php?do=notice"> Посмотреть все обновление</a>
-</ul>
-</noindex>
-</xmp></pre>
+<i>оформлеие можно взять из файла styles.css</i>
 <br>
-<pre>Noti_ml.tpl</pre>:<br>
-<pre><xmp><li class="Noti_ml" id="{tag_editdate}">
-    <span class="icon_noti"></span>
-    <span class="dec_noti">
-    <span class="reason_noti">{tag_reason}</span>
-    <span class="title_noti"> <a href="{tag_link}" > {tag_title} </a> </span>
-    </span>
-    <span class="date_noti">{tag_date}</span>
-</li>
-</xmp></pre>
-<br>
-<pre>Noti_full.tpl</pre>:<br>
-<pre><xmp><h2 id="notih2">Последние обовление. Заголовк</h2>
-<ul id="noti_full">
-{tag_noti}
-</ul>
-<h3>Текст под</h3>
-</xmp></pre>
-<br>
-<pre>Noti_fl.tpl</pre>:<br>
-<pre><xmp>{tag_data}
-<li>
-Обновили <b><a href="{tag_link1}">{tag_title1}</a></b>, по причне: <b>{tag_reason1}</b>
-</li>
-</xmp></pre><br>
-<i>оформлеие можно взять из файла .css</i>
+
 </span>
 <br>
 <br>
